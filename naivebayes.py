@@ -48,7 +48,7 @@ def get_word_feature(words_list):
 words_features=get_word_feature(get_words_in_tweets(tweets))
 
 #may need improvement..not sure what to do with emoticons at the moment
-print words_features
+#print words_features
 
 def extract_features(document):
 	document_words=set(document)
@@ -56,7 +56,17 @@ def extract_features(document):
 	for word in words_features:
 		features['contains(%s)' %word]=(word in document_words)
 	return features
+
+#f=extract_features('i love this car'.split())
+
+#for key in f:
+#	print key,f[key]
 		
-	
+training_set=nltk.classify.apply_features(extract_features, tweets)
+classifier = nltk.NaiveBayesClassifier.train(training_set)
+
+tweet='i like delhi'
+print classifier.classify(extract_features(tweet.split()))
+
 
 
