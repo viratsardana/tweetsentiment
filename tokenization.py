@@ -12,9 +12,18 @@ def processTweet(line):
 	stop=stopwords.words('english')
 	li=line.split()[1:]
 	
+	rem=[]
+	
 	for i in range(0,len(li)):
 		li[i]=li[i].lower()
+		if not (ord(li[i][0]) >= 97 and ord(li[i][0])<=122):
+			rem.append(li[i])
 	
+	
+	#print rem
+	
+	for r in rem:
+		li=remove_from_list(li,r)
 	
 	for sw in stop:
 		if sw in li:
@@ -31,19 +40,21 @@ def processTweet(line):
 			li[i]=re.sub(r'(.)\1+',r'\1\1',li[i])
 	
 	
-	print li
+	
 
 	
+	#print li
 	
 	#stemming of words
-"""	st = LancasterStemmer()
+	st = LancasterStemmer()
 		
 	for i in range(0,len(li)):
-		li[i]=st.stem(li[i])"""
+		li[i]=st.stem(li[i])
 	
 	
+	#print li
 	
-			
+	return li			
 	
 
 
@@ -52,20 +63,44 @@ def processTweet(line):
 fhandle=open('training.txt','r')
 
 pos_tweets=[]
-negative_tweets=[]
+neg_tweets=[]
 
 exclude=set(string.punctuation)
 
-#line="""How?.-Mission Impossible III is really boring the second time around..-The new Cobequid health center is soooooooo nice!..."""
+#line="""im kinda sad that da vinci code sucked("""
 #line=''.join(ch for ch in line if ch not in exclude)
 #processTweet(line)
 
 for line in fhandle:
 	line=''.join(ch for ch in line if ch not in exclude)
+	line = line.replace("'m", " am")
+	line = line.replace("'d", " would")
+	line = line.replace("'ve", " have")
+	line = line.replace("'ll", " will")
+	line = line.replace("'s", " is")
+	line = line.replace("'re", " are")
+	line = line.replace("cant", "can not")
+	line = line.replace("can't", "can not")
+	line = line.replace("wont", "would not")
+	line = line.replace("won't", "would not")
+	line = line.replace("n't", " not") 
+	line = line.replace("y'all", "you all")
+	line = line.replace("didn't", "did not")
+	
+	
+
 	if line[0]=='1':
-		processTweet(line)
-		#pos_tweets.append()
+		pos_tweets.extend(processTweet(line))
 	elif line[0]=='0':
-		processTweet(line)
-		#neg_tweets.append()
+		neg_tweets.extend(processTweet(line))
+	
+
+s_pos_tweet_words=list(set(pos_tweets))
+s_neg_tweet_words=list(set(neg_tweets))
+
+#print s_neg_tweet_words
+#print s_neg_tweet_words
+	
+	
+		
 		
