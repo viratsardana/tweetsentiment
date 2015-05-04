@@ -13,7 +13,7 @@ st_words_li=st_words.split("\n")
 def remove_from_list(dli,dsw):
 	return [value for value in dli if value!=dsw]
 
-def processTweet(line,sentiment):
+def processTweet(line):
 	#removing stop words
 	stop=stopwords.words('english')
 	li=line.split()[1:]
@@ -68,56 +68,54 @@ def processTweet(line,sentiment):
 	
 	#print st
 	
-	with open("new_training.txt","a") as myfile:
-		myfile.write(str(sentiment)+" "+st+"\n")
+	with open("new_test.txt","a") as myfile:
+		myfile.write(st+"\n")
 	
-	return li			
+	#return li			
 	
 
 
 
 
-fhandle=open('training.txt','r')
+fhandle=open('testdata.txt','r')
 
 pos_tweets=[]
 neg_tweets=[]
 
 exclude=set(string.punctuation)
 
-#line="""The Da Vinci Code book is just awesome."""
+line="""i love seattle.."""
 #line=''.join(ch for ch in line if ch not in exclude)
 #processTweet(line)
 
-for line in fhandle:
-	line=''.join(ch for ch in line if ch not in exclude)
-	line = line.replace("'m", " am")
-	line = line.replace("'d", " would")
-	line = line.replace("'ve", " have")
-	line = line.replace("'ll", " will")
-	line = line.replace("'s", " is")
-	line = line.replace("'re", " are")
-	line = line.replace("cant", "can not")
-	line = line.replace("can't", "can not")
-	line = line.replace("wont", "would not")
-	line = line.replace("won't", "would not")
-	line = line.replace("n't", " not") 
-	line = line.replace("y'all", "you all")
-	line = line.replace("didn't", "did not")
+#for line in fhandle:
+line=''.join(ch for ch in line if ch not in exclude)
+line = line.replace("'m", " am")
+line = line.replace("'d", " would")
+line = line.replace("'ve", " have")
+line = line.replace("'ll", " will")
+line = line.replace("'s", " is")
+line = line.replace("'re", " are")
+line = line.replace("cant", "can not")
+line = line.replace("can't", "can not")
+line = line.replace("wont", "would not")
+line = line.replace("won't", "would not")
+line = line.replace("n't", " not") 
+line = line.replace("y'all", "you all")
+line = line.replace("didn't", "did not")
 	
 	
 
-	if line[0]=='1':
-		pos_tweets.extend(processTweet(line,1))
-	elif line[0]=='0':
-		neg_tweets.extend(processTweet(line,0))
+processTweet(line)
 	
 
-s_pos_tweet_words=list(set(pos_tweets))
-s_neg_tweet_words=list(set(neg_tweets))
+#s_pos_tweet_words=list(set(pos_tweets))
+#s_neg_tweet_words=list(set(neg_tweets))
 
 
 
 
 #print s_neg_tweet_words
 #print s_neg_tweet_words
+
 
